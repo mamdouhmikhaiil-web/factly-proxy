@@ -1,7 +1,9 @@
 {
   "name": "factly-proxy",
   "version": "1.0.0",
+  "private": true,
   "dependencies": {
-    "node-fetch": "^2.6.7"
+    // احذف هذا السطر
+    // "node-fetch": "^2.6.7"
   }
 }
