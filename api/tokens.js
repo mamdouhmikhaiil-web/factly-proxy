@@ -1,32 +1,19 @@
-const fetch = require("node-fetch");
+import fetch from 'node-fetch';
 
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
+  const address = "0x208bf3e7da9639f1eaefa2de78c23396b0682025"; // غيره حسب الحاجة
+  const url = `https://api.dexscreener.com/latest/dex/pairs/bsc/${address}`;
+
   try {
-    const response = await fetch("https://api.dexscreener.com/latest/dex/pairs/bsc");
-
+    const response = await fetch(url);
     if (!response.ok) {
-      throw new Error(`Failed to fetch: ${response.status}`);
+      throw new Error(`Dexscreener error: ${response.status}`);
     }
 
     const data = await response.json();
-
-    const filtered = data.pairs.filter(pair => {
-      return (
-        pair.liquidity &&
-        pair.liquidity.usd &&
-        pair.liquidity.usd > 10000 &&
-        pair.baseToken &&
-        pair.baseToken.name &&
-        pair.baseToken.symbol &&
-        pair.priceUsd &&
-        !pair.baseToken.name.toLowerCase().includes("warn") &&
-        !pair.baseToken.name.toLowerCase().includes("risk")
-      );
-    });
-
-    res.status(200).json({ pairs: filtered });
+    res.status(200).json(data);
   } catch (error) {
     console.error("Error in tokens API:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
-};
+}
