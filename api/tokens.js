@@ -1,7 +1,8 @@
 import fetch from 'node-fetch';
 
 export default async function handler(req, res) {
-  const address = "0x208bf3e7da9639f1eaefa2de78c23396b0682025"; // غيره حسب الحاجة
+  const address = "const address = "0x0E09FaBb73Bd3Ade0a17ECC321fD13a19e81cE82"; // عنوان CAKE
+"; // غيره حسب الحاجة
   const url = `https://api.dexscreener.com/latest/dex/pairs/bsc/${address}`;
 
   try {
