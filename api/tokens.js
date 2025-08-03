@@ -1,8 +1,6 @@
-import { fetch } from 'undici';
-
 export default async function handler(req, res) {
   try {
-    const response = await fetch("https://api.dexscreener.com/latest/dex/pairs/bsc");
+    const response = await fetch("https://api.dexscreener.com/latest/dex/pairs");
 
     if (!response.ok) {
       throw new Error(`Failed to fetch: ${response.status}`);
@@ -12,6 +10,7 @@ export default async function handler(req, res) {
 
     const filtered = data.pairs.filter(pair => {
       return (
+        pair.chainId === "bsc" && // فقط BSC
         pair.liquidity &&
         pair.liquidity.usd &&
         pair.liquidity.usd > 10000 &&
