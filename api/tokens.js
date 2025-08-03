@@ -1,12 +1,8 @@
 const fetch = require("node-fetch");
 
-module.exports = async function (req, res) {
+module.exports = async (req, res) => {
   try {
-    const response = await fetch("https://api.dexscreener.com/latest/dex/pairs", {
-      headers: {
-        "Accept": "application/json"
-      }
-    });
+    const response = await fetch("https://api.dexscreener.com/latest/dex/pairs/bsc");
 
     if (!response.ok) {
       throw new Error(`Failed to fetch: ${response.status}`);
@@ -16,8 +12,8 @@ module.exports = async function (req, res) {
 
     const filtered = data.pairs.filter(pair => {
       return (
-        pair.chainId === "bsc" &&
         pair.liquidity &&
+        pair.liquidity.usd &&
         pair.liquidity.usd > 10000 &&
         pair.baseToken &&
         pair.baseToken.name &&
