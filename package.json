@@ -1,8 +1,7 @@
 {
   "name": "factly-proxy",
   "version": "1.0.0",
-  "type": "module",
   "dependencies": {
-    "undici": "^6.7.0"
+    "node-fetch": "^2.6.7"
   }
 }
