@@ -1,6 +1,12 @@
-export default async function handler(req, res) {
+const fetch = require("node-fetch");
+
+module.exports = async function (req, res) {
   try {
-    const response = await fetch("https://api.dexscreener.com/latest/dex/pairs");
+    const response = await fetch("https://api.dexscreener.com/latest/dex/pairs", {
+      headers: {
+        "Accept": "application/json"
+      }
+    });
 
     if (!response.ok) {
       throw new Error(`Failed to fetch: ${response.status}`);
@@ -10,9 +16,8 @@ export default async function handler(req, res) {
 
     const filtered = data.pairs.filter(pair => {
       return (
-        pair.chainId === "bsc" && // فقط BSC
+        pair.chainId === "bsc" &&
         pair.liquidity &&
-        pair.liquidity.usd &&
         pair.liquidity.usd > 10000 &&
         pair.baseToken &&
         pair.baseToken.name &&
@@ -28,4 +33,4 @@ export default async function handler(req, res) {
     console.error("Error in tokens API:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
-}
+};
